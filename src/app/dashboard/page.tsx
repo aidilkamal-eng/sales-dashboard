@@ -10,6 +10,7 @@ import salesData from "@/data/sales.json"
 import { SalesData } from "@/types";
 import { getTotalKunjungan, getRataRataEfektivitas, getTotalOrder, formatRupiah, filterSalesData } from "@/lib/salesUtils";
 import SalesTable from "@/components/SalesTable";
+import EffectivenessChart from "@/components/EffectivenessChart";
 
 export default function DashboardPage() {
   const { user, isLoading } = useAuth();
@@ -30,6 +31,7 @@ export default function DashboardPage() {
 
   const data = salesData as SalesData[];
   const filteredData = filterSalesData(data, searchTerm, selectedArea);
+  const chartData = filterSalesData(data, "", selectedArea);
 
   const areas = data.map((item) => item.area);
   const uniqueAreas = Array.from(new Set(areas));
@@ -37,13 +39,19 @@ export default function DashboardPage() {
   return (
     <main>
       <Header />
-      <div className="p-6">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-          <SummaryCard label="Total kunjungan" value={`${getTotalKunjungan(data)}`}/>
-          <SummaryCard label="Rata-rata efektivitas" value={`${getRataRataEfektivitas(data)}%`}/>
-          <SummaryCard label="Total order" value={formatRupiah(getTotalOrder(data))}/>
-        </div>
 
+      <div className="flex flex-col lg:flex-row gap-4 mb-6">
+        <div className="lg:w-2/3">
+          <EffectivenessChart data={chartData}/>
+        </div>
+        <div className="lg:w-1/3 flex flex-col gap-4">
+          <SummaryCard label="Total kunjungan" value={`${getTotalKunjungan(data)}`} className="flex-1" />
+          <SummaryCard label="Rata-rata efektivitas" value={`${getRataRataEfektivitas(data)}%`} className="flex-1" />
+          <SummaryCard label="Total order" value={formatRupiah(getTotalOrder(data))} className="flex-1" />
+        </div>
+      </div>
+
+      <div className="p-6">
         <div className="flex gap-4 mb-4">
           <input
             type="text"
