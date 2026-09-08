@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import Header from "@/components/Header";
 
 export default function DashboardPage() {
   const { user, isLoading } = useAuth();
@@ -20,7 +21,8 @@ export default function DashboardPage() {
 
   return (
     <main>
-      <h1>Dashboard - Selamat datang, {user?.firstName}</h1>
+      <Header />
+      {/* nanti SummaryCard, SalesTable, EffectivenessChart di sini */}
     </main>
   );
 }
