@@ -16,3 +16,15 @@ export function getTotalOrder(data: SalesData[]): number {
 export function formatRupiah(value: number): string {
     return Intl.NumberFormat('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 0}).format(value);
 }
+
+export function filterSalesData(
+  data: SalesData[],
+  searchTerm: string,
+  selectedArea: string
+): SalesData[] {
+  return data.filter((item) => {
+    const matchesSearch = item.nama_sales.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesArea = selectedArea === "" || selectedArea === "Semua" || item.area === selectedArea;
+    return matchesSearch && matchesArea;
+  });
+}
