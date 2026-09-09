@@ -1,5 +1,10 @@
 # Sales Dashboard — Technical Test Frontend Web
 
+## Live Demo
+🔗 [sales-dashboard-aidil.vercel.app](https://sales-dashboard-aidil.vercel.app)
+
+Kredensial login untuk testing tersedia di bagian "Kredensial Login" di bawah.
+
 ## Cara Menjalankan
 1. Clone repository ini
 2. Install dependency: `npm install`
