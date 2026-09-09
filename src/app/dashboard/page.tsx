@@ -51,8 +51,8 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="p-6">
-        <div className="flex gap-4 mb-4">
+      <div className="p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row gap-4 mb-4">
           <input
             type="text"
             placeholder="Cari nama sales..."
