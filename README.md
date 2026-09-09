@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sales Dashboard — Technical Test Frontend Web
 
-## Getting Started
+## Cara Menjalankan
+1. Clone repository ini
+2. Install dependency: `npm install`
+3. Jalankan development server: `npm run dev`
+4. Buka `http://localhost:3000` di browser
 
-First, run the development server:
+## Kredensial Login (DummyJSON)
+Contoh akun untuk testing:
+- Username: `emilys`
+- Password: `emilyspass`
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Kredensial lain bisa dilihat di `https://dummyjson.com/users`.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tech Stack
+- Next.js (App Router) + TypeScript
+- Tailwind CSS
+- Recharts (visualisasi chart)
+- React Context API (state management auth)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Struktur Folder
+src/
+├── app/
+│   ├── dashboard/
+│   │   └── page.tsx            (halaman Dashboard)
+│   ├── login/
+│   │   └── page.tsx            (halaman Login)
+│   ├── layout.tsx
+│   └── page.tsx                (halaman root, redirect otomatis ke login jika user belum pernah login sebelumnya dan redirect ke dashboard jika sudah)
+├── components/
+│   ├── EffectivenessChart.tsx  (komponen chart, menggunakan recharts)
+│   ├── Header.tsx
+│   ├── LoginForm.tsx
+│   ├── SalesTable.tsx          (komponen table daftar sales, dari mock dataset sales.json)
+│   └── SummaryCard.tsx
+├── context/
+│   └── AuthContext.tsx         (AuthProvider, memiliki fungsi login dan logout)
+├── data/
+│   └── sales.json              (mock dataset dari soal)
+├── lib/
+│   ├── auth.ts                 (fungsi LoginUser, mengirim POST ke api)
+│   └── salesUtils.ts           (menyimpan fungsi-fungsi pengolahan data; getTotalKunjungan, getRataRataEfektivitas, getTotalOrder, formatRupiah, dan filterSalesData)
+└── types/
+    └── index.ts                (interface: User, SalesData, dll)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Keputusan Teknis & Justifikasi
+- Kenapa pakai Context API, bukan Zustand/Redux?
+    Karena scope aplikasi kecil yaitu hanya 1 jenis state (auth) dan tidak ada kebutuhan complex state logic yang butuh Redux/Zustand, jadi Context API digunakan. Keunggulannya untuk project ini adalah tidak perlu menambah dependency lagi.
 
-## Learn More
+- Kenapa data sales disimpan di file JSON statis lokal, bukan API?
+    Sesuai instruksi soal, dataset performa sales ini memang spesifik untuk studi kasus dan tidak tersedia di API publik mana pun. Menyimpannya sebagai JSON statis lokal adalah pendekatan paling efisien untuk skala prototype ini — tidak perlu membangun/mengelola backend tambahan, sementara data tetap mudah diakses dan di-import langsung ke komponen dengan type safety dari TypeScript.
 
-To learn more about Next.js, take a look at the following resources:
+- Kenapa auth state disimpan juga di localStorage (bukan cuma di memory)?
+    agar session login tetap survive jika di refresh.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Kenapa pisah `lib/auth.ts`, `lib/salesUtils.ts` dari komponen?
+    agar kode lebih terstruktur dan clean. sehingga fungsi-fungsi fungsional seperti filter data dan summary bisa digunakan ulang jika ada komponen baru yang dibuat namun memerlukan fungsi yang sama (separation of concerns)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Asumsi
+- Field `kunjungan_unplanned` disebutkan di deskripsi tabel soal, tapi tidak ada di contoh dataset JSON yang diberikan — sehingga field ini tidak diimplementasikan.
 
-## Deploy on Vercel
+- Dropdown filter area dibuat otomatis dari data (menggunakan `Set` untuk mengambil nilai unik), bukan di-hardcode manual. Dengan begitu, jika ada penambahan area baru di dataset, dropdown akan otomatis menyesuaikan tanpa perlu mengubah kode.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Chart efektivitas mengikuti filter area, tetapi mengabaikan filter pencarian nama. Tujuannya, chart ini dipakai untuk membandingkan performa antar sales dalam satu area (misalnya "siapa yang paling baik performanya di area Bandung"), bukan untuk melihat data satu orang tertentu — kebutuhan tersebut sudah terpenuhi lewat tabel dan fitur search-nya.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Nilai order ditampilkan dalam format Rupiah tanpa desimal (misalnya `Rp33.130.002`), karena nilai transaksi dalam Rupiah pada praktiknya tidak memerlukan pecahan di bawah satuan rupiah, sehingga tampilan lebih ringkas dan mudah dibaca.
+
+## Known Issues
+- DummyJSON adalah API publik gratis yang memiliki rate limit. Saat rate limit tercapai (status 429), pengguna akan melihat pesan error yang jelas dan diminta mencoba lagi setelah beberapa saat. Ini di luar kendali aplikasi karena merupakan batasan dari pihak penyedia API.
+
+## Screenshot
+### Halaman Login
+![Halaman Login](./docs/screenshots/login.png)
+
+### Halaman Dashboard
+![Halaman Dashboard](./docs/screenshots/dashboard.png)
