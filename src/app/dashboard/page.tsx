@@ -11,6 +11,7 @@ import { SalesData } from "@/types";
 import { getTotalKunjungan, getRataRataEfektivitas, getTotalOrder, formatRupiah, filterSalesData } from "@/lib/salesUtils";
 import SalesTable from "@/components/SalesTable";
 import EffectivenessChart from "@/components/EffectivenessChart";
+import OrderDistributionChart from "@/components/OrderDistributionChart";
 
 export default function DashboardPage() {
   const { user, isLoading } = useAuth();
@@ -41,14 +42,18 @@ export default function DashboardPage() {
       <Header />
 
       <div className="flex flex-col lg:flex-row gap-4 mb-6">
-        <div className="lg:w-2/3">
+        <div className="lg:w-1/2">
           <EffectivenessChart data={chartData}/>
         </div>
-        <div className="lg:w-1/3 flex flex-col gap-4">
+        <div className="lg:w-1/2">
+          <OrderDistributionChart data={chartData}/>
+        </div>
+      </div>
+
+      <div className="flex sm:flex-row flex-col gap-4">
           <SummaryCard label="Total kunjungan" value={`${getTotalKunjungan(data)}`} className="flex-1" />
           <SummaryCard label="Rata-rata efektivitas" value={`${getRataRataEfektivitas(data)}%`} className="flex-1" />
           <SummaryCard label="Total order" value={formatRupiah(getTotalOrder(data))} className="flex-1" />
-        </div>
       </div>
 
       <div className="p-4 sm:p-6">
