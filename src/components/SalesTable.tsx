@@ -21,8 +21,15 @@ export default function SalesTable({ data }: SalesTableProps) {
           </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => (
-            <tr key={index}>
+          {data.length === 0 ? (
+            <tr>
+              <td colSpan={7} className="text-center py-5">
+                Tidak ada data yang cocok dengan pencarian
+              </td>
+            </tr>
+          ) : (
+            data.map((item, index) => (
+              <tr key={index}>
                 <td className="px-4 py-3">{item.nama_sales}</td>
                 <td className="px-4 py-3">{item.area}</td>
                 <td className="px-4 py-3">{item.kunjungan_planned}</td>
@@ -30,8 +37,9 @@ export default function SalesTable({ data }: SalesTableProps) {
                 <td className="px-4 py-3">{item.efektivitas_visit_persen}%</td>
                 <td className="px-4 py-3">{formatRupiah(item.total_order_rp)}</td>
                 <td className="px-4 py-3">{item.jumlah_order_oos}</td>
-            </tr>
-          ))}
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>
