@@ -11,13 +11,13 @@ export default function SalesTable({ data }: SalesTableProps) {
       <table className="w-full text-sm text-left">
         <thead className="bg-gray-50 text-gray-600 uppercase text-xs">
           <tr>
-            <th className="px-4 py-3">Nama Sales</th>
-            <th className="px-4 py-3">Area</th>
-            <th className="px-4 py-3">Planned</th>
-            <th className="px-4 py-3">Realisasi</th>
-            <th className="px-4 py-3">Efektivitas</th>
-            <th className="px-4 py-3">Total Order</th>
-            <th className="px-4 py-3">OOS</th>
+            <th className="px-4 py-3" scope="col">Nama Sales</th>
+            <th className="px-4 py-3" scope="col">Area</th>
+            <th className="px-4 py-3" scope="col">Planned</th>
+            <th className="px-4 py-3" scope="col">Realisasi</th>
+            <th className="px-4 py-3" scope="col">Efektivitas</th>
+            <th className="px-4 py-3" scope="col">Total Order</th>
+            <th className="px-4 py-3" scope="col">OOS</th>
           </tr>
         </thead>
         <tbody>

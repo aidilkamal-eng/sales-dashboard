@@ -60,12 +60,14 @@ export default function DashboardPage() {
         <div className="flex flex-col sm:flex-row gap-4 mb-4">
           <input
             type="text"
+            aria-label="Cari nama sales"
             placeholder="Cari nama sales..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="border rounded px-3 py-2 flex-1"
           />
           <select
+            aria-label="Filter berdasarkan area"
             value={selectedArea}
             onChange={(e) => setSelectedArea(e.target.value)}
             className="border rounded px-3 py-2"
