@@ -12,9 +12,6 @@ export async function loginUser(username: string, password: string): Promise<Use
   try {
     response = await fetch(url, options);
   } catch {
-    // Fetch gagal total — kemungkinan CORS/network issue, sering terjadi
-    // saat API publik DummyJSON sedang rate-limited. Retry otomatis
-    // sengaja TIDAK dilakukan di sini karena akan memperparah rate limit.
     throw new Error("Gagal terhubung ke server. Silakan tunggu sebentar lalu coba lagi.");
   }
 
@@ -22,11 +19,16 @@ export async function loginUser(username: string, password: string): Promise<Use
     throw new Error("Terlalu banyak percobaan login. Silakan coba lagi dalam beberapa saat.");
   }
 
+  const data = await response.json();
+
   if (!response.ok) {
-    throw new Error("Ada masalah pada proses login");
+    if (!data.message) {
+      throw new Error("Login gagal");
+    } else {
+      throw new Error(`Ada masalah pada proses login: ${data.message}`);
+    }
   }
 
 
-  const data = await response.json();
   return data;
 }

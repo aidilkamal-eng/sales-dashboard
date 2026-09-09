@@ -69,6 +69,8 @@ src/
 ## Known Issues
 - DummyJSON adalah API publik gratis yang memiliki rate limit. Saat rate limit tercapai (status 429), pengguna akan melihat pesan error yang jelas dan diminta mencoba lagi setelah beberapa saat. Ini di luar kendali aplikasi karena merupakan batasan dari pihak penyedia API.
 
+- Saat rate limit DummyJSON tercapai, preflight request (`OPTIONS`) sering ikut terblokir oleh browser sebagai CORS error, sehingga request `POST` yang sesungguhnya tidak pernah terkirim. Akibatnya, aplikasi lebih sering menampilkan pesan "Gagal terhubung ke server" daripada "Terlalu banyak percobaan login" — meskipun akar masalahnya sama-sama rate limit. Ini adalah keterbatasan browser (kebijakan CORS) dalam membedakan jenis kegagalan request yang diblokir, bukan bug pada aplikasi. Pengecekan status 429 tetap dipertahankan di kode untuk menangani kasus di mana request berhasil terkirim namun responsnya sendiri berstatus 429
+
 ## Screenshot
 ### Halaman Login
 ![Halaman Login](./docs/screenshots/login.png)
