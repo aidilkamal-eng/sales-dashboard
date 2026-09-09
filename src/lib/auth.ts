@@ -21,11 +21,17 @@ export async function loginUser(username: string, password: string): Promise<Use
 
   const data = await response.json();
 
+  const ERROR_MESSAGES: Record<string, string> = {
+    "Invalid credentials": "Username atau password salah",
+    "Username and password required": "Username dan password tidak boleh kosong"
+  };
+
   if (!response.ok) {
     if (!data.message) {
       throw new Error("Login gagal");
     } else {
-      throw new Error(`Ada masalah pada proses login: ${data.message}`);
+      const translatedMessage = ERROR_MESSAGES[data.message] ?? data.message;
+      throw new Error(`Ada masalah pada proses login: ${translatedMessage}`);
     }
   }
 

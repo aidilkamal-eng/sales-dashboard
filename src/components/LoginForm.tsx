@@ -20,9 +20,20 @@ export default function LoginForm() {
     setError(null);
 
     try {
-      const user = await loginUser(username, password);
-      login(user);
-      router.push("/dashboard");
+      if (username.trim() === "" && password.trim() === "") {
+        setError("Username dan password harus terisi");
+        return;
+      } else if (username.trim() === "") {
+        setError("Username harus terisi");
+        return;
+      } else if (password.trim() === "") {
+        setError("Password harus terisi");
+        return;
+      } else {
+        const user = await loginUser(username, password);
+        login(user);
+        router.push("/dashboard");
+      }
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
