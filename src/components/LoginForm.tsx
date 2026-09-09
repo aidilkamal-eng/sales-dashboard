@@ -69,7 +69,7 @@ export default function LoginForm() {
                 disabled={loading}
                 className="bg-blue-600 text-white rounded px-4 py-2 disabled:opacity-50"
                 >
-                {loading ? "Loading...": "Login"}
+                {loading ? "Loading...": "Masuk"}
             </button>
         </form>
     );
