@@ -57,14 +57,19 @@ src/
 - Kenapa pisah `lib/auth.ts`, `lib/salesUtils.ts` dari komponen?
     agar kode lebih terstruktur dan clean. sehingga fungsi-fungsi fungsional seperti filter data dan summary bisa digunakan ulang jika ada komponen baru yang dibuat namun memerlukan fungsi yang sama (separation of concerns)
 
+- Kenapa pengecekan auth dari localStorage dilakukan di dalam useEffect, bukan langsung di badan komponen?
+    Karena localStorage adalah Web API milik browser, sedangkan Next.js melakukan render awal di server (server tidak punya akses ke window/localStorage). Kalau localStorage diakses langsung di luar useEffect, akan terjadi error saat render server. useEffect hanya dieksekusi setelah komponen mount di client, sehingga aman dipakai untuk membaca localStorage. Ini juga sekaligus menjelaskan kenapa proteksi route dilakukan di client-side (lewat useEffect + isLoading state), bukan lewat Next.js Middleware — karena Middleware berjalan di server dan tidak bisa membaca localStorage. Kalau ingin proteksi route di level middleware, auth token perlu disimpan di cookie, bukan localStorage.
+
 ## Asumsi
 - Field `kunjungan_unplanned` disebutkan di deskripsi tabel soal, tapi tidak ada di contoh dataset JSON yang diberikan — sehingga field ini tidak diimplementasikan.
 
 - Dropdown filter area dibuat otomatis dari data (menggunakan `Set` untuk mengambil nilai unik), bukan di-hardcode manual. Dengan begitu, jika ada penambahan area baru di dataset, dropdown akan otomatis menyesuaikan tanpa perlu mengubah kode.
 
-- Chart efektivitas mengikuti filter area, tetapi mengabaikan filter pencarian nama. Tujuannya, chart ini dipakai untuk membandingkan performa antar sales dalam satu area (misalnya "siapa yang paling baik performanya di area Bandung"), bukan untuk melihat data satu orang tertentu — kebutuhan tersebut sudah terpenuhi lewat tabel dan fitur search-nya.
+- Chart efektivitas dan chart distribusi total order mengikuti filter area, tetapi mengabaikan filter pencarian nama. Tujuannya, chart ini dipakai untuk membandingkan performa antar sales dalam satu area (misalnya "siapa yang paling baik performanya di area Bandung"), bukan untuk melihat data satu orang tertentu — kebutuhan tersebut sudah terpenuhi lewat tabel dan fitur search-nya.
 
 - Nilai order ditampilkan dalam format Rupiah tanpa desimal (misalnya `Rp33.130.002`), karena nilai transaksi dalam Rupiah pada praktiknya tidak memerlukan pecahan di bawah satuan rupiah, sehingga tampilan lebih ringkas dan mudah dibaca.
+
+- Key React di SalesTable menggunakan index array (bukan field id unik), karena dataset mock yang diberikan pada soal tidak memiliki field id. Ini aman untuk kasus ini karena baris tabel tidak memiliki state internal (tidak ada input/checkbox per baris) dan urutan data tidak berubah drastis saat difilter. Jika dataset berasal dari API sungguhan di masa depan, sebaiknya field id unik ditambahkan dan dipakai sebagai key.
 
 ## Known Issues
 - DummyJSON adalah API publik gratis yang memiliki rate limit. Saat rate limit tercapai (status 429), pengguna akan melihat pesan error yang jelas dan diminta mencoba lagi setelah beberapa saat. Ini di luar kendali aplikasi karena merupakan batasan dari pihak penyedia API.
