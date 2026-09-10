@@ -53,18 +53,23 @@ src/
 
 ## Keputusan Teknis & Justifikasi
 - Kenapa pakai Context API, bukan Zustand/Redux?
+
     Karena scope aplikasi kecil yaitu hanya 1 jenis state (auth) dan tidak ada kebutuhan complex state logic yang butuh Redux/Zustand, jadi Context API digunakan. Keunggulannya untuk project ini adalah tidak perlu menambah dependency lagi.
 
 - Kenapa data sales disimpan di file JSON statis lokal, bukan API?
+
     Sesuai instruksi soal, dataset performa sales ini memang spesifik untuk studi kasus dan tidak tersedia di API publik mana pun. Menyimpannya sebagai JSON statis lokal adalah pendekatan paling efisien untuk skala prototype ini — tidak perlu membangun/mengelola backend tambahan, sementara data tetap mudah diakses dan di-import langsung ke komponen dengan type safety dari TypeScript.
 
 - Kenapa auth state disimpan juga di localStorage (bukan cuma di memory)?
+
     agar session login tetap survive jika di refresh.
 
 - Kenapa pisah `lib/auth.ts`, `lib/salesUtils.ts` dari komponen?
+
     agar kode lebih terstruktur dan clean. sehingga fungsi-fungsi fungsional seperti filter data dan summary bisa digunakan ulang jika ada komponen baru yang dibuat namun memerlukan fungsi yang sama (separation of concerns)
 
 - Kenapa pengecekan auth dari localStorage dilakukan di dalam useEffect, bukan langsung di badan komponen?
+
     Karena localStorage adalah Web API milik browser, sedangkan Next.js melakukan render awal di server (server tidak punya akses ke window/localStorage). Kalau localStorage diakses langsung di luar useEffect, akan terjadi error saat render server. useEffect hanya dieksekusi setelah komponen mount di client, sehingga aman dipakai untuk membaca localStorage. Ini juga sekaligus menjelaskan kenapa proteksi route dilakukan di client-side (lewat useEffect + isLoading state), bukan lewat Next.js Middleware — karena Middleware berjalan di server dan tidak bisa membaca localStorage. Kalau ingin proteksi route di level middleware, auth token perlu disimpan di cookie, bukan localStorage.
 
 ## Asumsi
