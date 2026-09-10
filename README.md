@@ -25,6 +25,7 @@ Kredensial lain bisa dilihat di `https://dummyjson.com/users`.
 - React Context API (state management auth)
 
 ## Struktur Folder
+```
 src/
 ├── app/
 │   ├── dashboard/
@@ -48,6 +49,7 @@ src/
 │   └── salesUtils.ts           (menyimpan fungsi-fungsi pengolahan data; getTotalKunjungan, getRataRataEfektivitas, getTotalOrder, formatRupiah, dan filterSalesData)
 └── types/
     └── index.ts                (interface: User, SalesData, dll)
+```
 
 ## Keputusan Teknis & Justifikasi
 - Kenapa pakai Context API, bukan Zustand/Redux?
