@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import LoginForm from "@/components/LoginForm";
+import LoadingScreen from "@/components/LoadingScreen";
 
 export default function LoginPage() {
   const { user, isLoading } = useAuth();
@@ -16,7 +17,7 @@ export default function LoginPage() {
   }, [isLoading, user, router]);
 
   if (isLoading || user) {
-    return <p>Loading...</p>
+    return <LoadingScreen />;
   }
 
   return (

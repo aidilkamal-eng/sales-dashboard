@@ -12,6 +12,7 @@ import { getTotalKunjungan, getRataRataEfektivitas, getTotalOrder, formatRupiah,
 import SalesTable from "@/components/SalesTable";
 import EffectivenessChart from "@/components/EffectivenessChart";
 import OrderDistributionChart from "@/components/OrderDistributionChart";
+import LoadingScreen from "@/components/LoadingScreen";
 
 export default function DashboardPage() {
   const { user, isLoading } = useAuth();
@@ -27,7 +28,7 @@ export default function DashboardPage() {
   }, [isLoading, user, router]);
 
   if (isLoading || !user) {
-    return <p>Loading...</p>;
+    return <LoadingScreen />;
   }
 
   const data = salesData as SalesData[];

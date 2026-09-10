@@ -21,6 +21,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (stored) {
       setUser(JSON.parse(stored));
     }
+
     setIsLoading(false);
   }, []);
 
