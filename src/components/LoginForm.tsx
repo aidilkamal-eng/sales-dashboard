@@ -78,7 +78,7 @@ export default function LoginForm() {
             <button
                 type="submit"
                 disabled={loading}
-                className="bg-blue-600 text-white rounded px-4 py-2 disabled:opacity-50"
+                className="bg-blue-600 active:bg-blue-700 text-white rounded px-4 py-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >
                 {loading ? "Loading...": "Masuk"}
             </button>

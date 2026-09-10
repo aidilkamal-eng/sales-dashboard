@@ -19,7 +19,7 @@ export default function Header() {
         <h2>Halo, {user?.firstName} {user?.lastName}</h2>
       </div>
       <button
-        className="bg-red-600 text-white rounded px-4 py-2"
+        className="bg-red-600 active:bg-red-700 text-white rounded px-4 py-2 cursor-pointer"
         onClick={handleLogout}
         >
         Logout
