@@ -39,19 +39,21 @@ export default function DashboardPage() {
   const uniqueAreas = Array.from(new Set(areas));
 
   return (
-    <main>
-      <Header />
-
-      <div className="flex flex-col lg:flex-row gap-4 mb-6">
-        <div className="lg:w-1/2">
-          <EffectivenessChart data={chartData}/>
-        </div>
-        <div className="lg:w-1/2">
-          <OrderDistributionChart data={chartData}/>
+    <main className="bg-gray-50">
+      <div className="bg-blue-600 pb-16">
+        <Header />
+        <div className="flex flex-col lg:flex-row gap-4 mb-6 px-4 sm:px-6 pt-6">
+          <div className="lg:w-1/2">
+            <EffectivenessChart data={chartData}/>
+          </div>
+          <div className="lg:w-1/2">
+            <OrderDistributionChart data={chartData}/>
+          </div>
         </div>
       </div>
+      
 
-      <div className="flex sm:flex-row flex-col gap-4">
+      <div className="flex sm:flex-row flex-col gap-4 px-4 sm:px-6 -mt-14">
           <SummaryCard label="Total kunjungan" value={`${getTotalKunjungan(data)}`} className="flex-1" />
           <SummaryCard label="Rata-rata efektivitas" value={`${getRataRataEfektivitas(data)}%`} className="flex-1" />
           <SummaryCard label="Total order" value={formatRupiah(getTotalOrder(data))} className="flex-1" />

@@ -36,7 +36,6 @@ export default function OrderDistributionChart({ data }: OrderDistributionChartP
             cx="50%"
             cy="50%"
             outerRadius={100}
-            label={(entry) => entry.name}
           />
           <Tooltip formatter={(value) => formatRupiah(Number(value))} />
           <Legend />
